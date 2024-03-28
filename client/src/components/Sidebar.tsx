@@ -15,7 +15,7 @@ const sidebarItems = [
 
 const Sidebar = () => {
   return (
-    <Box as="aside" bg="#161B22" color="white" w="15%" minH="100vh" p="4">
+    <Box as="aside" bg="#161B22" color="white" w="18%" minH="100vh" p="4">
       <Box>
         <Box
           display="flex"

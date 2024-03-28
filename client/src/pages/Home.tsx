@@ -3,7 +3,7 @@ import React from 'react'
 
 const Home = () => {
   return (
-    <Box>
+    <Box display="grid" width="100vw">
       <Text>Essa é a pagina home</Text>
     </Box>
   )
