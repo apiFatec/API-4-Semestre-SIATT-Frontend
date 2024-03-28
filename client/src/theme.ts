@@ -39,18 +39,28 @@ const theme = extendTheme({
         backgroundColor: "customButtonBackground",
       },
       input: {
+        height: "50px",
         borderRadius: "4px",
         backgroundColor: "customInputBackground",
         border: "none",
-        borderColor: "transparent", 
+        borderColor: "transparent",
+        outline: "none",
         color: "white",
-        _focus: {
-          color: "white",
-          border: "none",
-          borderColor: "transparent", 
+        _focusVisible: {
+          borderColor: "red",
+          boxShadow: "none",
         },
         "::placeholder": {
-          color: "#6F7277", 
+          color: "#6F7277",
+        },
+      },
+      select: {
+        backgroundColor: "customInputBackground",
+        color: "white",
+        border: "none",
+        borderColor: "transparent",
+        _focus: {
+          backgroundColor: "customInputBackground",
         },
       },
     },
