@@ -15,7 +15,7 @@ const Login = () => {
     return(
     <Flex
       minH={'100vh'}
-      minW={'85%'}
+      minW={'100%'}
       align={'center'}
       justify={'center'}
       direction={'column'}>

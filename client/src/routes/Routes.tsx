@@ -16,9 +16,11 @@ const AppRoutes = () => {
   return (
     <BrowserRouter>
       <Flex>
-        <Sidebar />
         <Routes>
           <Route path="/login" element={<Login />} />
+        </Routes>
+        <Sidebar />
+        <Routes>
           <Route path="/home" element={<Home />} />
           <Route path="/novareuniao" element={<NovaReuniao />} />
           <Route path="/novousuario" element={<NovoUsuario />} />
