@@ -10,6 +10,7 @@ import Historico from "../pages/Historico";
 import NovoUsuario from "../pages/NovoUsuario";
 import Sidebar from "../components/Sidebar";
 import { Flex } from "@chakra-ui/react";
+import Login from "../pages/Login";
 
 const AppRoutes = () => {
   return (
@@ -17,6 +18,7 @@ const AppRoutes = () => {
       <Flex>
         <Sidebar />
         <Routes>
+          <Route path="/login" element={<Login />} />
           <Route path="/home" element={<Home />} />
           <Route path="/novareuniao" element={<NovaReuniao />} />
           <Route path="/novousuario" element={<NovoUsuario />} />
