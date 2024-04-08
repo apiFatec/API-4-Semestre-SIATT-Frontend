@@ -12,6 +12,7 @@ import {
   Textarea,
   VStack
 } from "@chakra-ui/react";
+import { useToast } from '@chakra-ui/react'
 
 interface Reuniao {
   titulo: string;
@@ -28,12 +29,23 @@ const NovaReuniao = () => {
     return reunioesLocalStorage ? JSON.parse(reunioesLocalStorage) : [];
   });
   
+  const toast = useToast ()
+
   const salvarDadosLocal = () => {
     const novaReuniao = { titulo, participantes, dataHora };
     // Atualizar dados local
     setReunioes([...reunioes, novaReuniao]);
    // Salvar dados local
     localStorage.setItem("reunioes", JSON.stringify([...reunioes, novaReuniao]));
+    
+    // Exibir toast
+    toast({
+      title: "Reunião agendada",
+      description: "Sua reunião foi agendada com sucesso.",
+      status: "success",
+      duration: 5000,
+      isClosable: true,
+    });
   }
 
   return (
