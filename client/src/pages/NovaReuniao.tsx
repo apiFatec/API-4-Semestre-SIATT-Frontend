@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Button,
@@ -13,8 +13,29 @@ import {
   VStack
 } from "@chakra-ui/react";
 
+interface Reuniao {
+  titulo: string;
+  participantes: string;
+  dataHora: string
+}
 
 const NovaReuniao = () => {
+  const [titulo, setTitulo] = useState("");
+  const [participantes, setParticipantes] = useState("");
+  const [dataHora, setDataHora] = useState("");
+  const [reunioes, setReunioes] = useState<Reuniao[]>(() => {
+    const reunioesLocalStorage = localStorage.getItem("reunioes");
+    return reunioesLocalStorage ? JSON.parse(reunioesLocalStorage) : [];
+  });
+  
+  const salvarDadosLocal = () => {
+    const novaReuniao = { titulo, participantes, dataHora };
+    // Atualizar dados local
+    setReunioes([...reunioes, novaReuniao]);
+   // Salvar dados local
+    localStorage.setItem("reunioes", JSON.stringify([...reunioes, novaReuniao]));
+  }
+
   return (
     <Box display="grid" width="100vw" placeContent="center">
       <Box>
@@ -23,7 +44,7 @@ const NovaReuniao = () => {
           <FormControl display="flex" flexDirection="column" gap="50px">
             <Box>
               <FormLabel htmlFor="titulo" fontSize="xl" marginBottom="10px" fontWeight="400">Título</FormLabel>
-              <Input border="none" bg="customInputBackground" height="60px" id="titulo" placeholder="Adicionar título da reunião" />
+              <Input onChange={(e) => setTitulo(e.target.value)} border="none" bg="customInputBackground" height="60px" id="titulo" placeholder="Adicionar título da reunião" />
             </Box>
             <Box>
               <Flex gap="20px" alignItems="center" >
@@ -36,7 +57,7 @@ const NovaReuniao = () => {
                 </Box>
                 <Box width="400px" >
                   <Text fontSize="xl" marginBottom="10px" fontWeight="400">Data e horário</Text>
-                  <Input border="none" bg="customInputBackground" type="date" height="60px" _hover={{cursor: "pointer"}}></Input>
+                  <Input onChange={(e) => setDataHora(e.target.value)} border="none" bg="customInputBackground" type="date" height="60px" _hover={{cursor: "pointer"}}></Input>
                 </Box>
                 <Box display="flex" gap="20px" alignItems="center" alignSelf="end"> 
                   <Input border="none" bg="customInputBackground" height="60px" placeholder="15:00" />
@@ -49,7 +70,7 @@ const NovaReuniao = () => {
               <VStack>
                 <FormControl id="participantes">
                   <FormLabel fontSize="xl" marginBottom="10px" fontWeight="400">Participantes</FormLabel>
-                  <Input border="none" bg="customInputBackground" height="60px" type="text" placeholder="Adicionar participantes" />
+                  <Input onChange={(e) => setParticipantes(e.target.value)} border="none" bg="customInputBackground" height="60px" type="text" placeholder="Adicionar participantes" />
                 </FormControl>
               </VStack>
             </Box>
@@ -67,7 +88,7 @@ const NovaReuniao = () => {
                   <FormLabel fontSize="xl" marginBottom="10px" fontWeight="400">Pauta prevista</FormLabel>
                   <Box display="flex" justifyContent="space-between" >
                     <Textarea bg="customInputBackground" border="none" height="140px" width="80%" placeholder="Escreva detalhes da reunião" />
-                    <Button width="140px" alignSelf="end" _hover={{backgroundColor: "#808080", color: "white"}}>Salvar</Button>
+                    <Button onClick={salvarDadosLocal} width="140px" alignSelf="end" _hover={{backgroundColor: "#808080", color: "white"}}>Salvar</Button>
                   </Box>
                 </FormControl>
               </VStack>
