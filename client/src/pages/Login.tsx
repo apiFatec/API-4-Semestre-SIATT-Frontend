@@ -7,11 +7,22 @@ import {
     Input,
     Stack,
     useColorModeValue,
+    CircularProgress,
   } from '@chakra-ui/react'
 
 import Logo from "../assets/logo.svg";
 
+import actions from '../zustand/auth-store/actions';
+import { authStore } from '../zustand/auth-store';
+
 const Login = () => {
+
+  const { fields: { email, password }, isLoading } = authStore();
+  const dispatch = authStore(state => state.dispatch);
+  const { changeFields, login } = actions(dispatch);
+
+  console.log(isLoading);
+
     return(
     <Flex
       minH={'100vh'}
@@ -39,6 +50,8 @@ const Login = () => {
         my={7}>
         <FormControl id="email" isRequired>
           <Input
+            value={email}
+            onChange={e => changeFields({ key: 'email', value: e.target.value })}
             placeholder="Insira seu e-mail"
             _placeholder={{ color: '#6F7277' }}
             type="email"
@@ -49,6 +62,8 @@ const Login = () => {
         </FormControl>
         <FormControl id="password" isRequired>
           <Input type="password" 
+            value={password}
+            onChange={e => changeFields({ key: 'password', value: e.target.value })}
             bg="customInputBackground"
             placeholder="Senha"
             _placeholder={{ color: '#6F7277' }}
@@ -64,8 +79,9 @@ const Login = () => {
             rounded={"16"}
             _hover={{
               bg: '#6F7277',
-            }}>
-            Entrar
+            }}
+            onClick={login}>
+            {isLoading ? <CircularProgress size={'20px'} isIndeterminate></CircularProgress> : 'Entrar'}
           </Button>
         </Stack>
       </Stack>
