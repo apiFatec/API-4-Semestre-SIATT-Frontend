@@ -1,7 +1,6 @@
-import { Box, Text, Grid, Heading, Button } from "@chakra-ui/react";
+import { Box, Grid, Heading, Button } from "@chakra-ui/react";
 import { Divider } from "@chakra-ui/react";
 import CardHome from "../components/CardHome";
-import React from "react";
 
 interface Reuniao {
   titulo: string;
@@ -17,8 +16,8 @@ const Home = () => {
   reunioes.reverse()
 
   return (
-    <Grid padding="5em" placeContent="start center" width="100vw">
-      <Box display="grid" gap="20px" w="1200px">
+    <Grid padding="5em 0em" placeContent="start center" width="100vw">
+      <Box display="grid" gap="20px" w={{xl: "70vw", lg: "60vw", md: "55vw"}} h={{xl: "100px", lg: "100px"}}>
         <Button justifySelf="end">Agendar Reunião</Button>
         <Heading as="h1">Agendas de hoje</Heading>
         <Divider />

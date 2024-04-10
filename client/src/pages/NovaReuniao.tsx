@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Box,
   Button,
@@ -47,6 +47,7 @@ const NovaReuniao = () => {
       duration: 5000,
       isClosable: true,
     });
+    
     // Limpar os campos de input
     setTitulo("");
     setParticipantes("");
@@ -55,14 +56,23 @@ const NovaReuniao = () => {
     setPautaPrevista("")
 
     console.log("renderizou")
-  }
+  } 
+
+  const breakpoints = {
+    base: "0em", // 0px
+    sm: "30em", // ~480px. em is a relative unit and is dependant on the font-size.
+    md: "48em", // ~768px
+    lg: "62em", // ~992px
+    xl: "80em", // ~1280px
+    "2xl": "96em", // ~1536px
+  };
 
   return (
     <Box display="grid" width="100vw" placeContent="center">
       <Box>
         <Heading fontWeight="500">Nova reunião</Heading>
-        <Box marginTop="50px">
-          <FormControl display="flex" flexDirection="column" gap="50px">
+        <Box marginTop="50px" maxW={{xl: "60vw", lg: "55vw", md: "55vw"}}>
+          <FormControl display="flex" flexDirection="column" gap="30px">
             <Box>
               <FormLabel htmlFor="titulo" fontSize="xl" marginBottom="10px" fontWeight="400">Título</FormLabel>
               <Input onChange={(e) => setTitulo(e.target.value)} border="none" bg="customInputBackground" height="60px" value={titulo} placeholder="Adicionar título da reunião" />
@@ -107,9 +117,9 @@ const NovaReuniao = () => {
               <VStack > 
                 <FormControl id="pauta">
                   <FormLabel fontSize="xl" marginBottom="10px" fontWeight="400">Pauta prevista</FormLabel>
-                  <Box display="flex" justifyContent="space-between" >
+                  <Box display="flex" gap="25px" justifyContent="space-between" >
                     <Textarea onChange={(e) => setPautaPrevista(e.target.value)}  value={pautaPrevista} bg="customInputBackground" border="none" height="140px" width="80%" placeholder="Escreva detalhes da reunião" />
-                    <Button onClick={salvarDadosLocal} width="140px" alignSelf="end" _hover={{backgroundColor: "#808080", color: "white"}}>Salvar</Button>
+                    <Button onClick={salvarDadosLocal} width="15%" alignSelf="end" _hover={{backgroundColor: "#808080", color: "white"}}>Salvar</Button>
                   </Box>
                 </FormControl>
               </VStack>

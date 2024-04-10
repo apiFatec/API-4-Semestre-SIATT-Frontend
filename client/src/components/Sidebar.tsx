@@ -1,4 +1,4 @@
-import { Box, Link, Text, Image } from "@chakra-ui/react";
+import { Box, Link, Text, Image, useBreakpoint, useBreakpointValue } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import Logo from "../assets/logo.svg";
 import Home from "../assets/navbar/homeNavbar.svg";
@@ -15,27 +15,13 @@ const sidebarItems = [
 
 const Sidebar = () => {
   return (
-    <Box as="aside" bg="#161B22" color="white" w="18%" minH="100vh" p="4">
+    <Box as="aside" bg="#161B22" color="white" w={{xl:"21vw", lg: "21vw"}} minH="100vh" p="4">
       <Box>
-        <Box
-          display="flex"
-          alignItems="center"
-          placeSelf="start"
-          gap="12px"
-          marginTop="6px"
-        >
+        <Box display="flex" alignItems="center" placeSelf="start" gap="12px" marginTop="6px">
           <Image src={Logo} />
-          <Text fontSize="20px" fontWeight="700">
-            MeetHub
-          </Text>
+          <Text fontSize="20px" fontWeight="700"> MeetHub </Text>
         </Box>
-        <Box
-          marginTop="30px"
-          display="flex"
-          flexDirection="column"
-          gap="10px"
-          fontSize="18px"
-        >
+        <Box marginTop="30px" display="flex" flexDirection="column" gap="10px" fontSize={{xl: "18px", lg: "16px"}}>
           {sidebarItems.map((item) => (
             <Link
               key={item.to}
@@ -53,7 +39,7 @@ const Sidebar = () => {
                 transition: ".5s",
               }}
             >
-              <Image src={item.icon} />
+              <Image width={{xl:"25px", lg: "20px"}} height={{xl: "25px", lg: "20px"}} src={item.icon} />
               <Text>{item.label}</Text>
             </Link>
           ))}
@@ -62,5 +48,6 @@ const Sidebar = () => {
     </Box>
   );
 };
+
 
 export default Sidebar;
