@@ -82,8 +82,10 @@ const NovaReuniao = () => {
                 <Box width="200px">
                   <Text fontSize="xl" marginBottom="10px" fontWeight="400">Categoria</Text>
                   <Select bg="customInputBackground" height="60px" borderColor="#20272d" _hover={{cursor: "pointer"}}>
-                    <option value="opcao1" style={{ backgroundColor: "#20272d", borderColor: "#20272d" }}>presencial</option>
-                    <option value="opcao2" style={{ backgroundColor: "#20272d", borderColor: "#20272d" }}>remoto</option>
+                    <option value="opcao1" style={{ backgroundColor: "#20272d", borderColor: "#20272d" }}>Online</option>
+                    <option value="opcao2" style={{ backgroundColor: "#20272d", borderColor: "#20272d" }}>Offline</option>
+                    <option value="opcao2" style={{ backgroundColor: "#20272d", borderColor: "#20272d" }}>Híbrido</option>
+                    <option value="opcao2" style={{ backgroundColor: "#20272d", borderColor: "#20272d" }}>Individual</option>
                   </Select>
                 </Box>
                 <Box width="400px" >

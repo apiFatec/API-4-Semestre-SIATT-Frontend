@@ -25,7 +25,7 @@ const CardHome = ({reuniao, id, onDelete}: Props) => {
     localStorage.setItem("reunioes", JSON.stringify(novasReunioes));
     onDelete(id);
   };
-  
+
   const getRandomColor = () => {
     const colors = [
       "#FF6B6B", // Vermelho
@@ -61,7 +61,7 @@ const CardHome = ({reuniao, id, onDelete}: Props) => {
           {reuniao.titulo}
         </Heading>
         <Box display="flex" justifyContent="space-between" alignItems="center">
-          <Text>{reuniao.participantes}</Text>
+          <Text marginRight="15px">{reuniao.participantes}</Text>
           <Text fontSize="14px">{reuniao.dataHora}</Text>
         </Box>
       </Box>
