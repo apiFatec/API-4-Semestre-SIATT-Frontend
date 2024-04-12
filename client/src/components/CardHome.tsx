@@ -1,5 +1,6 @@
 import { Box, Heading, Text, Button } from "@chakra-ui/react";
 import ModalCancelCard from "./ModalCancelCard";
+import { useState } from "react";
 
 interface Reuniao {
   id: number
@@ -24,7 +25,7 @@ const CardHome = ({reuniao, id, onDelete}: Props) => {
     localStorage.setItem("reunioes", JSON.stringify(novasReunioes));
     onDelete(id);
   };
-
+  
   const getRandomColor = () => {
     const colors = [
       "#FF6B6B", // Vermelho

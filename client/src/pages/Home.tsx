@@ -1,9 +1,10 @@
-import { Box, Grid, Heading, Button, Toast } from "@chakra-ui/react";
+import { Box, Grid, Heading, Button, Toast, Image } from "@chakra-ui/react";
 import { Divider } from "@chakra-ui/react";
 import CardHome from "../components/CardHome";
 import { json } from "react-router-dom";
 import { useToast } from "@chakra-ui/react"
 import { useState } from "react";
+import calendarioHome from "../assets/calendarioHome.svg"
 
 interface Reuniao { 
   id: number
@@ -60,7 +61,9 @@ const Home = () => {
         w={{ xl: "70vw", lg: "60vw", md: "55vw" }}
         h={{ xl: "100px", lg: "100px" }}
       >
-        <Button justifySelf="end">Agendar Reunião</Button>
+        <Button justifySelf="end" h="40px" display="flex" gap="20px" alignItems="center" fontWeight="600" fontSize="18px">
+          <Image src={calendarioHome}/> Agendar Reunião
+        </Button>
         <Heading as="h1">Agendas de hoje</Heading>
         <Divider />
         <Box
