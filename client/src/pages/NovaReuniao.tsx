@@ -44,7 +44,7 @@ const NovaReuniao = () => {
       title: "Reunião agendada",
       description: "Sua reunião foi agendada com sucesso.",
       status: "success",
-      duration: 5000,
+      duration: 3000,
       isClosable: true,
     });
     

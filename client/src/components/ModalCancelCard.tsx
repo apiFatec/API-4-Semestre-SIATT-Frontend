@@ -12,11 +12,19 @@ import {
 } from "@chakra-ui/react";
 import { Divider } from "@chakra-ui/react";
 
-function ModalCancelCard() {
+interface props{
+  id: number
+  onDelete: (id:number) => void
+}
+
+function ModalCancelCard({id, onDelete}: props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const cancelarReuniao = () => {
+  const cancelarReuniao = (id: number) => {
     /* funcao para cancelar a reuniao */
+    console.log(id)
+    onDelete(id)
+    onClose()
   };
 
   return (
@@ -50,7 +58,7 @@ function ModalCancelCard() {
               Fechar
             </Button>
             <Button
-              onClick={cancelarReuniao}
+              onClick={() => cancelarReuniao(id)}
               color="white"
               width="40%"
               backgroundColor="#823A3A"
