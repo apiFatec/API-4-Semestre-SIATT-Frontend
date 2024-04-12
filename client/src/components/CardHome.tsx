@@ -25,9 +25,36 @@ const CardHome = ({reuniao, id, onDelete}: Props) => {
     onDelete(id);
   };
 
+  const getRandomColor = () => {
+    const colors = [
+      "#FF6B6B", // Vermelho
+      "#48BB78", // Verde
+      "#3182CE", // Azul
+      "#F6E05E", // Amarelo
+      "#9F7AEA", // Roxo
+      "#ED64A6", // Rosa
+      "#F56565", // Vermelho claro
+      "#48BB78", // Verde claro
+      "#4299E1", // Azul claro
+      "#F6E05E", // Amarelo claro
+      "#9F7AEA", // Roxo claro
+      "#ED64A6", // Rosa claro
+      "#6EE7B7", // Verde menta
+      "#F2C94C", // Amarelo suave
+      "#6A4029", // Marrom
+      "#2D3748", // Cinza escuro
+      "#319795", // Verde azulado
+      "#E53E3E", // Vermelho forte
+      "#667EEA", // Azul claro
+      "#718096", // Cinza azulado
+    ];
+    const randomIndex = Math.floor(Math.random() * colors.length)
+    return colors[randomIndex]
+  }
+
   return (
     <Box>
-    <Box display="flex" justifyContent="space-between" padding="20px" borderRadius="5px" backgroundColor="#D9D9D9" borderLeft="10px solid green" height="80px" marginBottom="10px">
+    <Box display="flex" justifyContent="space-between" padding="20px" borderRadius="5px" backgroundColor="#D9D9D9" borderLeft={`10px solid ${getRandomColor()}`} height="80px" marginBottom="10px">
       <Box color="black" gap="7px" placeSelf="center" display="flex" flexDirection="column">
         <Heading color="black" as="h1" fontSize="18px">
           {reuniao.titulo}
