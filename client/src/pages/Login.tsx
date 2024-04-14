@@ -14,14 +14,22 @@ import Logo from "../assets/logo.svg";
 
 import actions from '../zustand/auth-store/actions';
 import { authStore } from '../zustand/auth-store';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+
 
 const Login = () => {
 
-  const { fields: { email, password }, isLoading } = authStore();
+  const navigate = useNavigate();
+  const { fields: { email, password }, isLoading, data } = authStore();
   const dispatch = authStore(state => state.dispatch);
   const { changeFields, login } = actions(dispatch);
 
-  console.log(isLoading);
+  React.useEffect(() => {
+    if (data?.access_token) {
+      navigate('/home');
+    }
+  }, [data?.access_token])
 
     return(
     <Flex
