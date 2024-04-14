@@ -10,11 +10,15 @@ import Historico from "../pages/Historico";
 import NovoUsuario from "../pages/NovoUsuario";
 import Sidebar from "../components/Sidebar";
 import { Flex } from "@chakra-ui/react";
+import Login from "../pages/Login";
 
 const AppRoutes = () => {
   return (
     <BrowserRouter>
       <Flex>
+        <Routes>
+        <Route path="/login" element={<Login />} />
+        </Routes>
         <Sidebar />
         <Routes>
           <Route path="/home" element={<Home />} />
