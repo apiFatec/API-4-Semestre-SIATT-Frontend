@@ -21,8 +21,6 @@ const Login = () => {
   const dispatch = authStore(state => state.dispatch);
   const { changeFields, login } = actions(dispatch);
 
-  console.log(isLoading);
-
     return(
     <Flex
       minH={'100vh'}

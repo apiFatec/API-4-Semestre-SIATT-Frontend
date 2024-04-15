@@ -4,7 +4,6 @@ import { unstable_batchedUpdates } from "react-dom";
 
 const actions = (dispatch: any) => ({
     changeFields: (payload: { key: 'email' | 'password', value: string}) => {
-      console.log(payload)
       dispatch({ type: Types.AUTH_CHANGE_FIELDS, payload }) 
     },
     login: () => {
