@@ -15,21 +15,19 @@ import Logo from "../assets/logo.svg";
 import actions from '../zustand/authStore/actions';
 import { authStore } from '../zustand/authStore';
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 
 
 const Login = () => {
 
-const navigate = useNavigate();
 const { fields: { email, password }, isLoading, data } = authStore();
 const dispatch = authStore(state => state.dispatch);
 const { changeFields, login } = actions(dispatch);
 
 React.useEffect(() => {
   if (data?.access_token) {
-    navigate('/home');
+    window.location.href = 'http://localhost:3000/meetings/authorize';
   }
-}, [data?.access_token])
+}, [data?.access_token]);
 
   return(
   <Flex

@@ -21,6 +21,12 @@ const Home = () => {
     return nextId++;
   }
   const [reunioes, setReunioes] = useState<Reuniao[]>(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const accessToken = urlParams.get('accessToken');
+
+    if (accessToken) {
+      localStorage.setItem('accessToken', accessToken);
+    }
     const reunioesLocalStorage = localStorage.getItem("reunioes");
     return reunioesLocalStorage
       ? JSON.parse(reunioesLocalStorage).map((reuniao: Reuniao) => ({

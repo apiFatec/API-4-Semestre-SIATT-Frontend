@@ -1,4 +1,6 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { formatISO } from 'date-fns';
+
 import {
   Box,
   Button,
@@ -9,124 +11,148 @@ import {
   Input,
   Select,
   Text,
-  Textarea,
-  VStack
 } from "@chakra-ui/react";
-import { useToast } from '@chakra-ui/react'
-
-interface Reuniao {
-  titulo: string;
-  participantes: string;
-  dataHora: string
-}
+import axios from "axios";
 
 const NovaReuniao = () => {
-  const [titulo, setTitulo] = useState("");
-  const [participantes, setParticipantes] = useState("");
-  const [dataHora, setDataHora] = useState("");
-  const [salaReuniao, setSalaReuniao] = useState("")
-  const [pautaPrevista, setPautaPrevista] = useState("")
-  const [reunioes, setReunioes] = useState<Reuniao[]>(() => {
-    const reunioesLocalStorage = localStorage.getItem("reunioes");
-    return reunioesLocalStorage ? JSON.parse(reunioesLocalStorage) : [];
+  const accessToken = localStorage.getItem("accessToken");
+  const [meetingData, setMeetingData] = useState({
+    topic: "",
+    startDate: "", // Definido como string
+    duration: "", // Definido como string
+    accessToken: accessToken,
   });
-  
-  const toast = useToast ()
 
-  const salvarDadosLocal = () => {
-    const novaReuniao = { titulo, participantes, dataHora };
-    // Atualizar dados local
-    setReunioes([...reunioes, novaReuniao]);
-   // Salvar dados local
-    localStorage.setItem("reunioes", JSON.stringify([...reunioes, novaReuniao]));
-    // Exibir toast
-    toast({
-      title: "Reunião agendada",
-      description: "Sua reunião foi agendada com sucesso.",
-      status: "success",
-      duration: 3000,
-      isClosable: true,
-    });
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setMeetingData((prevData) => ({
+      ...prevData,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     
-    // Limpar os campos de input
-    setTitulo("");
-    setParticipantes("");
-    setDataHora("");
-    setSalaReuniao("");
-    setPautaPrevista("")
-
-    console.log("renderizou")
-  } 
-
-  const breakpoints = {
-    base: "0em", // 0px
-    sm: "30em", // ~480px. em is a relative unit and is dependant on the font-size.
-    md: "48em", // ~768px
-    lg: "62em", // ~992px
-    xl: "80em", // ~1280px
-    "2xl": "96em", // ~1536px
+    try {
+      // Formatar a data aqui, após o usuário inserir a data
+      const formattedDate = new Date(meetingData.startDate).toISOString().slice(0, 19) + 'Z';
+      
+      const response = await axios.post(
+        "http://localhost:3000/meetings/create-meeting",
+        {
+          topic: meetingData.topic,
+          startDate: formattedDate, // Corrigido para corresponder ao nome esperado no backend
+          duration: meetingData.duration, // Corrigido para corresponder ao nome esperado no backend
+          type: 2,
+          accessToken: meetingData.accessToken, 
+        }
+      );
+      console.log("Reunião criada com sucesso:", response.data);
+    } catch (error) {
+      console.error("Erro ao criar a reunião:", error);
+    }
   };
 
   return (
     <Box display="grid" width="100vw" placeContent="center">
       <Box>
         <Heading fontWeight="500">Nova reunião</Heading>
-        <Box marginTop="50px" maxW={{xl: "60vw", lg: "55vw", md: "55vw"}}>
-          <FormControl display="flex" flexDirection="column" gap="30px">
+        <Box marginTop="50px">
+        <form onSubmit={handleSubmit}>
+          <FormControl
+            display="flex"
+            flexDirection="column"
+            gap="50px"
+            onSubmit={handleSubmit}
+          >
             <Box>
-              <FormLabel htmlFor="titulo" fontSize="xl" marginBottom="10px" fontWeight="400">Título</FormLabel>
-              <Input onChange={(e) => setTitulo(e.target.value)} border="none" bg="customInputBackground" height="60px" value={titulo} placeholder="Adicionar título da reunião" />
+              <FormLabel htmlFor="titulo" fontSize="xl" marginBottom="10px" fontWeight="400">
+                Título
+              </FormLabel>
+              <Input
+                border="none"
+                bg="customInputBackground"
+                height="60px"
+                id="titulo"
+                placeholder="Adicionar título da reunião"
+                name="topic"
+                value={meetingData.topic}
+                onChange={handleChange}
+              />
             </Box>
             <Box>
-              <Flex gap="20px" alignItems="center" >
+              <Flex gap="20px" alignItems="center">
                 <Box width="200px">
-                  <Text fontSize="xl" marginBottom="10px" fontWeight="400">Categoria</Text>
-                  <Select bg="customInputBackground" height="60px" borderColor="#20272d" _hover={{cursor: "pointer"}}>
-                    <option value="opcao1" style={{ backgroundColor: "#20272d", borderColor: "#20272d" }}>Online</option>
-                    <option value="opcao2" style={{ backgroundColor: "#20272d", borderColor: "#20272d" }}>Offline</option>
-                    <option value="opcao2" style={{ backgroundColor: "#20272d", borderColor: "#20272d" }}>Híbrido</option>
-                    <option value="opcao2" style={{ backgroundColor: "#20272d", borderColor: "#20272d" }}>Individual</option>
+                  <Text fontSize="xl" marginBottom="10px" fontWeight="400">
+                    Categoria
+                  </Text>
+                  <Select
+                    bg="customInputBackground"
+                    height="60px"
+                    borderColor="#20272d"
+                    _hover={{ cursor: "pointer" }}
+                    name="category"
+                    value= ''
+                    onChange={handleChange}
+                  >
+                    <option value="opcao1" style={{ backgroundColor: "#20272d", borderColor: "#20272d" }}>
+                      presencial
+                    </option>
+                    <option value="opcao2" style={{ backgroundColor: "#20272d", borderColor: "#20272d" }}>
+                      remoto
+                    </option>
                   </Select>
                 </Box>
-                <Box width="400px" >
-                  <Text fontSize="xl" marginBottom="10px" fontWeight="400">Data e horário</Text>
-                  <Input onChange={(e) => setDataHora(e.target.value)} value={dataHora} border="none" bg="customInputBackground" type="date" height="60px" _hover={{cursor: "pointer"}}></Input>
+                <Box width="400px">
+                  <Text fontSize="xl" marginBottom="10px" fontWeight="400">
+                    Data e horário
+                  </Text>
+                  <Input
+                    border="none"
+                    bg="customInputBackground"
+                    type="date"
+                    height="60px"
+                    _hover={{ cursor: "pointer" }}
+                    name="startDate"
+                    value={meetingData.startDate}
+                    onChange={handleChange}
+                  ></Input>
                 </Box>
-                <Box display="flex" gap="20px" alignItems="center" alignSelf="end"> 
-                  <Input border="none" bg="customInputBackground" height="60px" placeholder="15:00" />
-                  <Text  color="#6F7274">às</Text>
-                  <Input border="none" bg="customInputBackground" height="60px" placeholder="15:00" />
+                <Box display="flex" gap="20px" alignItems="center" alignSelf="end">
+                  <Input
+                    border="none"
+                    bg="customInputBackground"
+                    height="60px"
+                    placeholder="15:00"
+                    name="duration"
+                    value={meetingData.duration}
+                    onChange={handleChange}
+                  />
+                  <Text color="#6F7274">às</Text>
+                  <Input
+                    border="none"
+                    bg="customInputBackground"
+                    height="60px"
+                    placeholder="15:00"
+                    name="duration"
+                    value={meetingData.duration}
+                    onChange={handleChange}
+                  />
                 </Box>
               </Flex>
             </Box>
-            <Box>
-              <VStack>
-                <FormControl id="participantes">
-                  <FormLabel fontSize="xl" marginBottom="10px" fontWeight="400">Participantes</FormLabel>
-                  <Input onChange={(e) => setParticipantes(e.target.value)} value={participantes} border="none" bg="customInputBackground" height="60px" type="text" placeholder="Adicionar participantes" />
-                </FormControl>
-              </VStack>
-            </Box>
-            <Box>
-              <VStack>
-                <FormControl id="salaReuniao">
-                  <FormLabel fontSize="xl" marginBottom="10px" fontWeight="400">Sala de reunião</FormLabel>
-                  <Input border="none" bg="customInputBackground" onChange={(e) => setSalaReuniao(e.target.value)} value={salaReuniao} height="60px" type="text" placeholder="Selecionar sala de reunião" />
-                </FormControl>
-              </VStack>
-            </Box>
-            <Box>
-              <VStack > 
-                <FormControl id="pauta">
-                  <FormLabel fontSize="xl" marginBottom="10px" fontWeight="400">Pauta prevista</FormLabel>
-                  <Box display="flex" gap="25px" justifyContent="space-between" >
-                    <Textarea onChange={(e) => setPautaPrevista(e.target.value)}  value={pautaPrevista} bg="customInputBackground" border="none" height="140px" width="80%" placeholder="Escreva detalhes da reunião" />
-                    <Button onClick={salvarDadosLocal} width="15%" alignSelf="end" _hover={{backgroundColor: "#808080", color: "white"}}>Salvar</Button>
-                  </Box>
-                </FormControl>
-              </VStack>
-            </Box>
+            {/* Outros campos do formulário */}
+            <Button
+              width="140px"
+              alignSelf="end"
+              _hover={{ backgroundColor: "#808080", color: "white" }}
+              type="submit"
+            >
+              Criar reunião
+            </Button>
           </FormControl>
+          </form>
         </Box>
       </Box>
     </Box>
