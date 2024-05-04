@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { formatISO } from 'date-fns';
+import useInputValidation from "../hooks/useInputValidation";
 
 import {
   Box,
@@ -22,8 +23,10 @@ const NovaReuniao = () => {
     duration: "", // Definido como string
     accessToken: accessToken,
   });
+  
+  const { isValid, error, validateInput, setError } = useInputValidation();
 
-  const handleChange = (e) => {
+  const handleChange = (e:any) => {
     const { name, value } = e.target;
     setMeetingData((prevData) => ({
       ...prevData,
@@ -31,9 +34,14 @@ const NovaReuniao = () => {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e:any) => {
     e.preventDefault();
-    
+
+    if (!validateInput(meetingData.topic)) {
+      setError("Campo obrigatório");
+      return;
+    }
+  
     try {
       // Formatar a data aqui, após o usuário inserir a data
       const formattedDate = new Date(meetingData.startDate).toISOString().slice(0, 19) + 'Z';
@@ -79,7 +87,9 @@ const NovaReuniao = () => {
                 name="topic"
                 value={meetingData.topic}
                 onChange={handleChange}
+                isInvalid={!isValid && error !== ""}
               />
+              <Text color="red" fontSize="sm">{error}</Text>
             </Box>
             <Box>
               <Flex gap="20px" alignItems="center">
