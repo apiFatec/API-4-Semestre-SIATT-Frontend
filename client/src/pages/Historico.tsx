@@ -14,8 +14,6 @@ const Historico = () => {
           {/* {renderizar os cards aqui com map} */}
         </Box>
       </Box>
-    </Box>
-  );
-};
+
 
 export default Historico;

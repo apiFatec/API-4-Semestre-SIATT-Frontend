@@ -29,6 +29,19 @@ const theme = extendTheme({
   },
   styles: {
     global: {
+      "::-webkit-scrollbar": {
+        width: "8px",
+      },
+      "::-webkit-scrollbar-track": {
+        background: "#333",
+      },
+      "::-webkit-scrollbar-thumb": {
+        background: "#888",
+        borderRadius: "4px",
+      },
+      "::-webkit-scrollbar-thumb:hover": {
+        background: "#555",
+      },
       body: {
         bg: "customBackground",
         color: "customTextColor",
