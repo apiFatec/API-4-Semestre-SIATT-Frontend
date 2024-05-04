@@ -11,10 +11,12 @@ interface Reuniao {
   titulo: string;
   participantes: string;
   dataHora: string;
+  joinUrl: string
 }
 
 const Home = () => {
   let nextId = 1;
+
 
   function generateId() {
     return nextId++;
@@ -84,6 +86,7 @@ const Home = () => {
               key={reuniao.id}
               id={reuniao.id}
               reuniao={reuniao}
+              joinUrl={reuniao.joinUrl}
               onDelete={deleteReuniao}
             />
           ))}

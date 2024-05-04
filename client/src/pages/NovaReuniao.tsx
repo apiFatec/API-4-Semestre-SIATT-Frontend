@@ -59,11 +59,13 @@ const NovaReuniao = () => {
         }
       );
 
-      console.log("Reunião criada com sucesso:", response.data);
+      const joinUrl = response.data.join_url;
+      localStorage.setItem("joinUrl", joinUrl);
 
       const novaReuniao = {
         titulo: meetingData.topic,
         participantes: "",
+        joinUrl: joinUrl
       };
 
       const reunioesLocalStorage = localStorage.getItem("reunioes");

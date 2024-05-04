@@ -7,18 +7,19 @@ interface Reuniao {
   titulo: string;
   participantes: string;
   dataHora: string;
+
 }
 
 interface Props {
   reuniao: Reuniao
   id: number
-  onDelete: (id:number) => void
+  onDelete: (id: number) => void
+  joinUrl: string;
 }
 
-const CardHome = ({reuniao, id, onDelete}: Props) => {
-  // Pegando os dados do localStorage
+const CardHome = ({ reuniao, id, onDelete }: Props) => {
   const reunioes: Reuniao[] = JSON.parse(localStorage.getItem("reunioes") || "[]");
-  
+
   const cancelarReuniao = () => {
     const reunioesLocalStorage = JSON.parse(localStorage.getItem("reunioes") || "[]");
     const novasReunioes = reunioesLocalStorage.filter((reuniao: Reuniao) => reuniao.id !== id);
@@ -55,22 +56,29 @@ const CardHome = ({reuniao, id, onDelete}: Props) => {
 
   return (
     <Box>
-    <Box display="flex" justifyContent="space-between" padding="20px" borderRadius="5px" backgroundColor="#D9D9D9" borderLeft={`10px solid ${getRandomColor()}`} height="80px" marginBottom="10px">
-      <Box color="black" gap="7px" placeSelf="center" display="flex" flexDirection="column">
-        <Heading color="black" as="h1" fontSize="18px">
-          {reuniao.titulo}
-        </Heading>
-        <Box display="flex" justifyContent="space-between" alignItems="center">
-          <Text marginRight="15px">{reuniao.participantes}</Text>
-          <Text fontSize="14px">{reuniao.dataHora}</Text>
+      <Box display="flex" justifyContent="space-between" padding="20px" borderRadius="5px" backgroundColor="#D9D9D9" borderLeft={`10px solid ${getRandomColor()}`} height="80px" marginBottom="10px">
+        <Box color="black" gap="7px" placeSelf="center" display="flex" flexDirection="column">
+          <Heading color="black" as="h1" fontSize="18px">
+            {reuniao.titulo}
+          </Heading>
+          <Box display="flex" justifyContent="space-between" alignItems="center">
+            <Text marginRight="15px">{reuniao.participantes}</Text>
+            <Text fontSize="14px">{reuniao.dataHora}</Text>
+          </Box>
+        </Box>
+        <Box display="flex" flexDirection="row" gap="10px">
+          <Button
+            as="a"
+            href={reuniao.joinUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Ingressar
+          </Button>
+          <ModalCancelCard id={reuniao.id} onDelete={cancelarReuniao} />
         </Box>
       </Box>
-      <Box display="flex" flexDirection="row" gap="10px">
-        <Button>Ingressar</Button>
-        <ModalCancelCard id={reuniao.id} onDelete={cancelarReuniao}/>
-      </Box>
     </Box>
-  </Box>
   );
 };
 
