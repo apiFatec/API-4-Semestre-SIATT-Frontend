@@ -11,9 +11,9 @@ import {
   Flex,
   Heading,
 } from "@chakra-ui/react";
-import { useToast } from '@chakra-ui/react';
-import { formatISO } from 'date-fns';
-import { toZonedTime } from 'date-fns-tz';
+import { useToast } from "@chakra-ui/react";
+import { formatISO } from "date-fns";
+import { toZonedTime } from "date-fns-tz";
 
 const NovaReuniao = () => {
   const accessToken = localStorage.getItem("accessToken");
@@ -32,7 +32,7 @@ const NovaReuniao = () => {
     const { name, value } = e.target;
     setMeetingData((prevData) => ({
       ...prevData,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -42,7 +42,7 @@ const NovaReuniao = () => {
     try {
       const startDateTime = toZonedTime(
         new Date(`${meetingData.startDate}T${meetingData.startHour}:00`),
-        'America/Sao_Paulo'
+        "America/Sao_Paulo"
       );
       const startHour = parseInt(meetingData.startHour);
       const endHour = parseInt(meetingData.endHour);
@@ -65,11 +65,13 @@ const NovaReuniao = () => {
       const novaReuniao = {
         titulo: meetingData.topic,
         participantes: "",
-        joinUrl: joinUrl
+        joinUrl: joinUrl,
       };
 
       const reunioesLocalStorage = localStorage.getItem("reunioes");
-      const reunioes = reunioesLocalStorage ? JSON.parse(reunioesLocalStorage) : [];
+      const reunioes = reunioesLocalStorage
+        ? JSON.parse(reunioesLocalStorage)
+        : [];
       const novasReunioes = [...reunioes, novaReuniao];
       localStorage.setItem("reunioes", JSON.stringify(novasReunioes));
 
@@ -89,13 +91,13 @@ const NovaReuniao = () => {
         duration: 3000,
         isClosable: true,
       });
-
     } catch (error) {
       console.error("Erro ao criar a reunião:", error);
 
       toast({
         title: "Erro ao agendar a reunião",
-        description: "Houve um erro ao agendar a reunião. Por favor, tente novamente.",
+        description:
+          "Houve um erro ao agendar a reunião. Por favor, tente novamente.",
         status: "error",
         duration: 3000,
         isClosable: true,
@@ -116,7 +118,12 @@ const NovaReuniao = () => {
               onSubmit={handleSubmit}
             >
               <Box>
-                <FormLabel htmlFor="titulo" fontSize="xl" marginBottom="10px" fontWeight="400">
+                <FormLabel
+                  htmlFor="titulo"
+                  fontSize="xl"
+                  marginBottom="10px"
+                  fontWeight="400"
+                >
                   Título
                 </FormLabel>
                 <Input
@@ -130,65 +137,91 @@ const NovaReuniao = () => {
                   onChange={handleChange}
                 />
               </Box>
-              <Select
-                border="none"
-                bg="customInputBackground"
-                height="60px"
-                _hover={{ cursor: "pointer" }}
-                name="type"
-                value={meetingData.type}
-                onChange={handleChange}
-              >
-                <option value="presencial" style={{ backgroundColor: "#20272d", borderColor: "#20272d" }}>
-                  Presencial
-                </option>
-                <option value="remoto" style={{ backgroundColor: "#20272d", borderColor: "#20272d" }}>
-                  Remoto
-                </option>
-                <option value="hibrido" style={{ backgroundColor: "#20272d", borderColor: "#20272d" }}>
-                  Híbrido
-                </option>
-              </Select>
-              <Box>
-                <Flex gap="20px" alignItems="center">
-                  <Box width="400px">
-                    <Text fontSize="xl" marginBottom="10px" fontWeight="400">
-                      Data e horário
-                    </Text>
-                    <Input
-                      border="none"
-                      bg="customInputBackground"
-                      type="date"
-                      height="60px"
-                      _hover={{ cursor: "pointer" }}
-                      name="startDate"
-                      value={meetingData.startDate}
-                      onChange={handleChange}
-                    />
-                  </Box>
-                  <Box display="flex" gap="20px" alignItems="center" alignSelf="end">
-                    <Input
-                      border="none"
-                      bg="customInputBackground"
-                      height="60px"
-                      placeholder="Hora de início"
-                      name="startHour"
-                      value={meetingData.startHour}
-                      onChange={handleChange}
-                    />
-                    <Text color="#6F7274">às</Text>
-                    <Input
-                      border="none"
-                      bg="customInputBackground"
-                      height="60px"
-                      placeholder="Hora de término"
-                      name="endHour"
-                      value={meetingData.endHour}
-                      onChange={handleChange}
-                    />
-                  </Box>
-                </Flex>
-              </Box>
+              <Flex gap="20px" alignItems="center">
+                <Box>
+                  <Text fontSize="xl" marginBottom="10px" fontWeight="400">
+                    Categoria
+                  </Text>
+                  <Select
+                    border="none"
+                    bg="customInputBackground"
+                    height="60px"
+                    _hover={{ cursor: "pointer" }}
+                    name="type"
+                    value={meetingData.type}
+                    onChange={handleChange}
+                  >
+                    <option
+                      value="presencial"
+                      style={{
+                        backgroundColor: "#20272d",
+                        borderColor: "#20272d",
+                      }}
+                    >
+                      Presencial
+                    </option>
+                    <option
+                      value="remoto"
+                      style={{
+                        backgroundColor: "#20272d",
+                        borderColor: "#20272d",
+                      }}
+                    >
+                      Remoto
+                    </option>
+                    <option
+                      value="hibrido"
+                      style={{
+                        backgroundColor: "#20272d",
+                        borderColor: "#20272d",
+                      }}
+                    >
+                      Híbrido
+                    </option>
+                  </Select>
+                </Box>
+                <Box width="400px">
+                  <Text fontSize="xl" marginBottom="10px" fontWeight="400">
+                    Data e horário
+                  </Text>
+                  <Input
+                    border="none"
+                    bg="customInputBackground"
+                    type="date"
+                    height="60px"
+                    _hover={{ cursor: "pointer" }}
+                    name="startDate"
+                    value={meetingData.startDate}
+                    onChange={handleChange}
+                  />
+                </Box>
+                <Box
+                  display="flex"
+                  gap="20px"
+                  alignItems="center"
+                  alignSelf="end"
+                >
+                  <Input
+                    border="none"
+                    bg="customInputBackground"
+                    height="60px"
+                    placeholder="Hora de início"
+                    name="startHour"
+                    value={meetingData.startHour}
+                    onChange={handleChange}
+                  />
+                  <Text color="#6F7274">às</Text>
+                  <Input
+                    border="none"
+                    bg="customInputBackground"
+                    height="60px"
+                    placeholder="Hora de término"
+                    name="endHour"
+                    value={meetingData.endHour}
+                    onChange={handleChange}
+                  />
+                </Box>
+              </Flex>
               <Button
                 width="140px"
                 alignSelf="end"
