@@ -8,13 +8,16 @@ import {
     Stack,
     useColorModeValue,
     CircularProgress,
+    InputGroup,
+    InputRightElement,
   } from '@chakra-ui/react'
+  import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 
 import Logo from "../assets/logo.svg";
 
 import actions from '../zustand/auth-store/actions';
 import { authStore } from '../zustand/auth-store';
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -24,6 +27,7 @@ const Login = () => {
   const { fields: { email, password }, isLoading, data } = authStore();
   const dispatch = authStore(state => state.dispatch);
   const { changeFields, login } = actions(dispatch);
+  const [showPassword, setShowPassword] = useState(false);
 
   React.useEffect(() => {
     if (data?.access_token) {
@@ -69,15 +73,29 @@ const Login = () => {
           />
         </FormControl>
         <FormControl id="password" isRequired>
-          <Input type="password" 
-            value={password}
-            onChange={e => changeFields({ key: 'password', value: e.target.value })}
-            bg="customInputBackground"
-            placeholder="Senha"
-            _placeholder={{ color: '#6F7277' }}
-            border={"none"}
-            h={'46'}
-            />
+          <InputGroup>
+            <Input type={showPassword ? 'text' : 'password'} 
+              value={password}
+              onChange={e => changeFields({ key: 'password', value: e.target.value })}
+              bg="customInputBackground"
+              placeholder="Senha"
+              _placeholder={{ color: '#6F7277' }}
+              border={"none"}
+              h={'46'}
+              />
+            <InputRightElement h={'full'}>
+              <Button
+              bgColor="transparent"
+              textColor="#f0f0f0"
+              _hover=""
+              _active=""
+              variant={'ghost'}
+              onClick={() => setShowPassword((showPassword) => !showPassword)}>
+                {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+              </Button>
+            </InputRightElement>
+          </InputGroup>
+          
         </FormControl>
         <Stack spacing={6}>
           <Button
