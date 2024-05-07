@@ -16,7 +16,6 @@ import actions from '../zustand/authStore/actions';
 import { authStore } from '../zustand/authStore';
 import React from 'react';
 
-
 const Login = () => {
 
 const { fields: { email, password }, isLoading, data } = authStore();

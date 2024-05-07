@@ -17,7 +17,7 @@ const AppRoutes = () => {
     <BrowserRouter>
       <Flex>
         <Routes>
-        <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
         <Sidebar />
         <Routes>
