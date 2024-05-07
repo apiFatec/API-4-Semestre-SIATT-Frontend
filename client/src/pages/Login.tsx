@@ -1,26 +1,33 @@
 import {
-  Button,
-  Flex,
-  FormControl,
-  Text,
-  Image,
-  Input,
-  Stack,
-  useColorModeValue,
-  CircularProgress,
-} from '@chakra-ui/react'
+    Button,
+    Flex,
+    FormControl,
+    Text,
+    Image,
+    Input,
+    Stack,
+    useColorModeValue,
+    CircularProgress,
+    InputGroup,
+    InputRightElement,
+  } from '@chakra-ui/react'
+  import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 
 import Logo from "../assets/logo.svg";
 
-import actions from '../zustand/authStore/actions';
-import { authStore } from '../zustand/authStore';
-import React from 'react';
+import actions from '../zustand/auth-store/actions';
+import { authStore } from '../zustand/auth-store';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 
 const Login = () => {
 
-const { fields: { email, password }, isLoading, data } = authStore();
-const dispatch = authStore(state => state.dispatch);
-const { changeFields, login } = actions(dispatch);
+  const navigate = useNavigate();
+  const { fields: { email, password }, isLoading, data } = authStore();
+  const dispatch = authStore(state => state.dispatch);
+  const { changeFields, login } = actions(dispatch);
+  const [showPassword, setShowPassword] = useState(false);
 
 React.useEffect(() => {
   if (data?.access_token) {
@@ -75,19 +82,46 @@ React.useEffect(() => {
           border={"none"}
           h={'46'}
           />
-      </FormControl>
-      <Stack spacing={6}>
-        <Button
-          bg={'#F0F0F0'}
-          color={'#161B22'}
-          w={"132px"}
-          rounded={"16"}
-          _hover={{
-            bg: '#6F7277',
-          }}
-          onClick={login}>
-          {isLoading ? <CircularProgress size={'20px'} isIndeterminate></CircularProgress> : 'Entrar'}
-        </Button>
+        </FormControl>
+        <FormControl id="password" isRequired>
+          <InputGroup>
+            <Input type={showPassword ? 'text' : 'password'} 
+              value={password}
+              onChange={e => changeFields({ key: 'password', value: e.target.value })}
+              bg="customInputBackground"
+              placeholder="Senha"
+              _placeholder={{ color: '#6F7277' }}
+              border={"none"}
+              h={'46'}
+              />
+            <InputRightElement h={'full'}>
+              <Button
+              bgColor="transparent"
+              textColor="#f0f0f0"
+              _hover=""
+              _active=""
+              variant={'ghost'}
+              onClick={() => setShowPassword((showPassword) => !showPassword)}>
+                {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+              </Button>
+            </InputRightElement>
+          </InputGroup>
+          
+        </FormControl>
+        <Stack spacing={6}>
+          <Button
+            bg={'#F0F0F0'}
+            color={'#161B22'}
+            w={"132px"}
+            rounded={"16"}
+            _hover={{
+              bg: '#6F7277',
+            }}
+            onClick={login}>
+            {isLoading ? <CircularProgress size={'20px'} isIndeterminate></CircularProgress> : 'Entrar'}
+          </Button>
+        </Stack>
+
       </Stack>
     </Stack>
   </Flex>

@@ -25,6 +25,9 @@ const actions = (dispatch: any) => ({
             }
         })
     },
+    logout: () => {
+        dispatch({ type: Types.AUTH_LOGOUT });
+    }
 })
 
 export default actions;

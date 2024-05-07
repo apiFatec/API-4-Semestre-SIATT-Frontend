@@ -7,13 +7,12 @@ export interface ApiCall {
 export const TOKEN_TYPE = "bearer";
 
 const axiosErrorsInterceptor = (req: any) => {
-  if (req?.response?.status === 401) {
-      alert('A chave venceu, você está sendo deslogado!');
+  if (req?.response?.status === 401 || req?.response?.status === 400) {
+      alert('Usuário não encontrado, verifique se os dados estão corretos!');
       localStorage.setItem('auth-store', '');
       localStorage.setItem('notifications-store', '');
       localStorage.setItem('rides-store', '');
-      window.location.reload();
-   
+      window.location.reload();   
   }
 }
 
